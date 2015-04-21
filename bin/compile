@@ -27,23 +27,23 @@ mkdir -p "$TARGET_PATH"
 
 if [ -d "$CACHE_PATH" ]; then
   echo "Restoring  from cache ($PKG_ETAG)" | indent
-  cp -a "$CACHE_PATH/*" "$TARGET_PATH"
+  cp -a "$CACHE_PATH/." "$TARGET_PATH"
 else
   echo "Fetching   $PKG_TARBALL" | indent
   curl --fail --retry 3 --retry-delay 1 --connect-timeout 3 "$PKG_TARBALL" -s -o - | tar zxf - -C "$TARGET_PATH"
   echo "Caching package ($PKG_ETAG)" | indent
   mkdir -p "$CACHE_PATH"
-  cp -a "$TARGET_PATH/*" "$CACHE_PATH"
+  cp -a "$TARGET_PATH/." "$CACHE_PATH"
 fi
 
 # copy libs into slug
 mkdir -p "$SLUG_PATH"
-cp -a "$TARGET_PATH/lib" "$SLUG_PATH"
+cp -a "$TARGET_PATH/lib/." "$SLUG_PATH"
 
 # configure paths
 cat <<EOF > "$BUILD_DIR/.profile.d/opencv.sh"
-export LD_LIBRARY_PATH="$VENDOR_PATH/lib:\$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="$VENDOR_PATH/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="$VENDOR_PATH:\$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="$VENDOR_PATH/pkgconfig:\$PKG_CONFIG_PATH"
 EOF
 
 # propagate paths to subsequent buildpacks
