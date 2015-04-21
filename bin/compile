@@ -4,7 +4,6 @@
 arrow() {
   sed -u 's/^/-----> /'
 }
-
 indent() {
   sed -u 's/^/       /'
 }
@@ -27,14 +26,14 @@ echo "Installing OpenCV $PKG_VERSION" | arrow
 mkdir -p "$TARGET_PATH"
 
 if [ -d "$CACHE_PATH" ]; then
-  echo "Restoring from cache ($PKG_ETAG)" | indent
-  cp -a "$CACHE_PATH" "$TARGET_PATH"
+  echo "Restoring  from cache ($PKG_ETAG)" | indent
+  cp -a "$CACHE_PATH/*" "$TARGET_PATH"
 else
   echo "Fetching   $PKG_TARBALL" | indent
   curl --fail --retry 3 --retry-delay 1 --connect-timeout 3 "$PKG_TARBALL" -s -o - | tar zxf - -C "$TARGET_PATH"
   echo "Caching package ($PKG_ETAG)" | indent
   mkdir -p "$CACHE_PATH"
-  cp -a "$TARGET_PATH" "$CACHE_PATH"
+  cp -a "$TARGET_PATH/*" "$CACHE_PATH"
 fi
 
 # copy libs into slug
