@@ -24,8 +24,8 @@ SLUG_PATH="$BUILD_DIR/vendor/opencv"
 
 echo "Installing OpenCV $PKG_VERSION" | arrow
 mkdir -p  "$TARGET_PATH"
-mkdir -p  "$VENDOR_PATH"
-ln    -sF "$TARGET_PATH" "$VENDOR_PATH"
+rm    -rf "$VENDOR_PATH"
+ln    -s  "$TARGET_PATH" "$VENDOR_PATH"
 
 if [ -d "$CACHE_PATH" ]; then
   echo "Restoring  from cache ($PKG_ETAG)" | indent
