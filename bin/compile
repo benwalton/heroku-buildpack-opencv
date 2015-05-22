@@ -42,7 +42,7 @@ fi
 
 # copy libs into slug
 mkdir -p                  "$SLUG_PATH"
-cp    -a "$TARGET_PATH/*" "$SLUG_PATH"
+cp    -a "$TARGET_PATH"/* "$SLUG_PATH"
 
 # configure paths
 mkdir -p    "$PROFILE_PATH"
