@@ -41,14 +41,20 @@ else
 fi
 
 # copy libs into slug
-mkdir -p                    "$SLUG_PATH"
-cp    -a "$TARGET_PATH/lib" "$SLUG_PATH"
+mkdir -p                  "$SLUG_PATH"
+cp    -a "$TARGET_PATH/*" "$SLUG_PATH"
 
 # configure paths
 mkdir -p    "$PROFILE_PATH"
 cat <<EOF > "$PROFILE_PATH/opencv.sh"
 export LD_LIBRARY_PATH="$VENDOR_PATH/lib:\$LD_LIBRARY_PATH"
-unset     LIBRARY_PATH INCLUDE_PATH CPATH CPPPATH PKG_CONFIG_PATH
+export    LIBRARY_PATH="$VENDOR_PATH/lib:\$LIBRARY_PATH"
+export    INCLUDE_PATH="$VENDOR_PATH/include:\$INCLUDE_PATH"
+export           CPATH="$VENDOR_PATH/include:\$CPATH"
+export         CPPPATH="$VENDOR_PATH/include:\$CPPPATH"
+export PKG_CONFIG_PATH="$VENDOR_PATH/lib/pkgconfig:\$PKG_CONFIG_PATH"
+# builtin unset may be overridden to be no-op
+unset LIBRARY_PATH INCLUDE_PATH CPATH CPPPATH PKG_CONFIG_PATH
 EOF
 
 # propagate paths to subsequent buildpacks
