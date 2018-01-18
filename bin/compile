@@ -12,7 +12,7 @@ indent() {
     CACHE_DIR=$2
 BUILDPACK_DIR=`cd $(dirname $0)/..; pwd`
 
-S3_BASE_URL="http://s3.amazonaws.com/iboc-media"
+S3_BASE_URL="https://s3.amazonaws.com/iboc-media"
 PKG_VERSION="2.4.11"
 PKG_TARBALL="$S3_BASE_URL/opencv-$PKG_VERSION.tar.gz"
 PKG_ETAG=$(curl --fail --head "$PKG_TARBALL" -s | grep -Ei '^etag' | sed -r 's/^etag|[^a-zA-Z0-9]+//gi')
